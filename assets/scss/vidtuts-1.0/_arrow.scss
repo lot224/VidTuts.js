@@ -1,0 +1,30 @@
+﻿@mixin tuts-arrow($width, $color, $radius, $offset) {
+      border-width: $width !important;      
+
+      &.tuts-top-center, &.tuts-top-left, &.tuts-top-right {
+        border-color: $color transparent transparent transparent !important;
+        bottom:-$width*2; left:0; right:0;
+      }
+      &.tuts-bottom-center, &.tuts-bottom-left, &.tuts-bottom-right {
+        border-color: transparent transparent $color !important;
+        top:-$width*2; left:0; right:0;
+      }
+
+      &.tuts-top-left, &.tuts-bottom-left { left: $radius + $offset; right: auto; }
+      &.tuts-top-right, &.tuts-bottom-right { left: auto; right: $radius + $offset; }
+       
+      &.tuts-left-center, &.tuts-left-top, &.tuts-left-bottom {
+        border-color:  transparent transparent transparent $color !important;
+        right:-$width*2; top:0; bottom:0;
+      }
+      &.tuts-right-center, &.tuts-right-top, &.tuts-right-bottom {
+        border-color:  transparent $color transparent transparent !important;
+        left:-$width*2; top:0; bottom:0;
+      }
+
+      &.tuts-left-top, &.tuts-right-top  { top: $radius + $offset; bottom: auto; }
+      &.tuts-left-bottom, &.tuts-right-bottom { top: auto; bottom: $radius + $offset; }
+
+      &.tuts-top-center, &.tuts-bottom-center { left: expression(((this.parentElement.clientWidth / 2)-#{$width/1px}) + "px"); }
+      &.tuts-left-center, &.tuts-right-center { top: expression(((this.parentElement.clientHeight / 2)-#{$width/1px}) + "px"); }
+}

@@ -1,0 +1,60 @@
+$experimental-support-for-svg: true;
+
+@import "compass";
+@import "vidtuts-1.0/layout";
+
+$tuts-color-base: #ddd;
+$tuts-border-width:10px;
+
+.tuts-container {
+  @include tuts-container(#CCCCCC, medium);
+}
+
+
+.vidtuts-icon {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAG4SURBVFiF7ZcxbhpBFIa/QRRJHInCUZTIxZ4g2ioXcOtISMkB2CO4Too5ga8QRJMCyeIOqVai4BIbQVJk5YJ1wu7wuwCsNQtmN4BJwS+9ZrWa/5s38+bNGEkcUrWDuh8BjgBHgMcAnHOXQAJom5hOp7fD4fCLMealMaboJ6kQaZp+lSRrrTzP+2dzz/NkrZUkRVF0DZwC9bxXwTzLsktJ8n1/q5nnw/d9SVIYhldziNpaAOfc0Fq7M/NFWGuVJMlv4B1wshZAUqm0V10az/OkWeM5B149ClBmwDiO1Wq1KkHMx74A3mwNsFCv11Oj0agC8AF4uzMASYrjWM1m83AAC22C2GsGyuyHvQAMBoPSZ8bOAdrtdukNWAmgTI1XLcHcOfAAoNAcnHM/gyBY/lxQp9PZ+E9eQRAwHo9vclAzLWdgNBp9lvbTC7rd7jc2nYTASRRF19Juu2G/3/8OfGRTL2B2RzgNw/AqTdO/Kwu+giaTyWQ+80/Ae5a6odGKh4kxpg40gDPgNfCs0oIX9Qf4BfwAbiRl916rAOYQNeAF8ByobwmQAbdAImn6wGcdwFPp/72UHgGeSne6xqzF/DdkLwAAAABJRU5ErkJggg==);
+  width:28px;
+  height:24px;
+  position:absolute;
+  background-position: center center;
+  left:30px;
+  top:60px;
+  cursor:pointer;
+  cursor:hand;
+  opacity: 0.0;
+
+.tooltip:after, .tooltip:before {
+    content: ' ';
+    position: absolute;
+    top: 100%;
+    border-style: solid;
+    width: 0;
+    height: 0;
+}
+
+.tooltip:before {
+    border-color: #333 transparent transparent transparent;
+    border-width: 16px 17px 0 7px;
+    left: 10px;
+}
+
+.tooltip:after {
+    border-color: #ccd transparent transparent transparent;
+    border-width: 12px 11px 0 4px;
+    left: 14px;
+}
+
+.tooltip {
+    position: relative;
+    border: 3px solid #333;
+    background-color: #ccd;
+    padding: 2px 10px;
+    text-align: center;
+    min-width:100px;
+    height: 20px;
+    top:-34px;
+    left:-5px;
+    border-radius: 15px;
+    white-space:nowrap;
+}
+}

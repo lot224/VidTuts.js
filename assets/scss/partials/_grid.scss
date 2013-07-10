@@ -1,0 +1,25 @@
+﻿@mixin gridElement($w) {
+  display: inline;
+  float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: $w;
+  //border:solid 1px #eee;
+}
+
+.g960 { position:relative; margin-left: auto; margin-right: auto; width: 960px; overflow: hidden; *zoom: 1; }
+.g    { @include gridElement(960px); }
+.g12  { @include gridElement(940px); }
+.g11  { @include gridElement(860px); }
+.g10  { @include gridElement(780px); }
+.g9   { @include gridElement(700px); }
+.g8   { @include gridElement(620px); }
+.g7   { @include gridElement(540px); }
+.g6   { @include gridElement(460px); }
+.g5   { @include gridElement(380px); }
+.g4   { @include gridElement(300px); }
+.g3   { @include gridElement(220px); }
+.g2   { @include gridElement(140px); }
+.g1   { @include gridElement(60px); }
+.o    { margin-right: 0;}
+.a    { margin-left: 0;}

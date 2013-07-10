@@ -1,0 +1,28 @@
+### OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+### mstest test results
+TestResults
+
+### Executables
+*.exe
+*.bat
+
+### Visual Studio Files
+*.bak
+*.user
+*.vspscc
+*.vssscc
+*.suo
+*.sln
+
+### Visual Studio Directories
+[Oo]bj/
+[Bb]in/
+
+### Nu-get
+[Pp]ackages/
+
+### Sass
+.sass-cache/

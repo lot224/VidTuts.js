@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Index</title>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/vidtuts-1.0.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/animated.css" rel="stylesheet" type="text/css" />
+
+  </head>
+
+  <body>
+
+
+<div class="g960">
+  <div class="g12 a o" style="width:960px">
+    <div id="header" class="box left" style="width:918px; height:30px; margin-bottom:20px;">VidTuts.js</div>
+
+    <div class="g7 a">VidTuts.js is a simple client side jQuery plug-in that peppers icons on the page that represent video tutorials that a user can quickly identify and get extended help on.</div>
+    <div id="NavItem5" class="item g1 o right">Donate</div>
+    <div id="NavItem4" class="item g1 o right">Contact</div>
+    <div id="NavItem3" class="item g1 o right">Demo</div>
+    <div id="NavItem2" class="item g1 o right">Download</div>
+    <div id="NavItem1" class="item g1 o right">Home</div>
+  </div>
+</div>
+
+<div class="g960">
+  <button id="bntStart" class="bnt">Show Tutorials</button>
+  <button id="bntToggle" class="bnt" style="z-index:20000; position: absolute;">Toggle Tutorials</button>
+</div>
+
+<div class="g960">
+  <div class="g11"><div id="jtut_01" class="box left" style="width:200px; height:150px;">200 x 150</div> Porta fringilla a eget dapibus ullamcorper posuere pharetra cras commodo non feugiat laoreet magnis arcu hendrerit lacus pellentesque euismod montes facilisis hendrerit sit quisque viverra eleifend ante consectetur lectus placerat eget nullam nascetur fermentum varius parturient auctor aliquam ornare tellus donec accumsan tincidunt condimentum purus quam varius porta in nascetur magnis tempor montes vitae nunc bibendum velit molestie magna vitae auctor erat nullam natoque blandit arcu a vel tortor mi facilisis augue lobortis accumsan imperdiet neque ullamcorper accumsan cras dui cras velit mi elementum felis in magnis cubilia ridiculus vestibulum nisi dui sollicitudin venenatis sapien at lorem duis euismod elementum nisi.</div>
+  <div class="g1">&nbsp;</div>
+</div>
+    <span class="vidtuts-icon" style="z-index:10001;"><span class="tooltip">the tooltip sdafgsadfg sdfgsdfgsdfg</span></span>
+<div class="g960">
+  <div class="g1">&nbsp;</div>
+  <div class="g11"><div id="jtut_02" class="box right" style="width:400px; height:150px;">400 x 150</div> Nulla sapien curabitur curae tempus massa sodales quam orci phasellus quisque velit at praesent metus libero a iaculis quis lorem enim mollis pulvinar hendrerit nunc justo metus ullamcorper donec quam ridiculus leo in suspendisse convallis cursus posuere dui amet commodo tortor metus leo pretium quam egestas integer commodo laoreet tortor libero gravida natoque rutrum purus sollicitudin urna viverra bibendum nullam lacinia.</div>
+</div>
+
+<div class="g960">
+  <div class="g11"><div id="jtut_03" class="box left" style="width:300px; height:100px;">300 x 100</div> Placerat rutrum aliquet cupid lectus ac molestie auctor accumsan cupid dis eu luctus felis vitae a vehicula tellus convallis nisl est lobortis augue nunc dignissim donec fermentum eleifend mi tempus pharetra gravida convallis tortor risus suspendisse rutrum malesuada nam enim ullamcorper magnis euismod ipsum volutpat praesent ridiculus ultricies proin porttitor bibendum fusce lobortis fringilla mollis sollicitudin mauris purus mus curae nullam praesent parturient eget ullamcorper odio curabitur velit aenean quisque erat pretium vel a varius metus.</div>
+  <div class="g1">&nbsp;</div>
+</div>
+
+    <script src="../scripts/jquery-1.7.min.js" type="text/javascript"></script>
+    <script src="../scripts/vidtuts-1.0.js" type="text/javascript"></script>
+
+    <ol id="VidTuts" class="vidtuts-items" data-index="4000">
+      <li data-anchor="#jtut_01">A Video Tutorial</li>
+      <!--<li data-anchor="#jtut_02">Another Video Tutorial</li>
+      <li data-anchor="#jtut_03">Yet Another Video Tutorial</li>-->
+    </ol>
+
+
+    <ol id="vidtuts2" class="vidtuts-items">
+            <li
+        id="nameOfTheVideoTutorial"
+        data-anchor="#jtut_01"
+        data-source="http ref to video file"
+        data-icon="css class name that represents the icon"
+        data-position="bottom, bottom-left, bottom-right, left, right, center, top, top-left, top-right"
+        data-position-type="inner, outer"
+        data-tooltip="Tooltip message when the user hovers over the tooltip."
+      >
+      Message that appears with the icon pointing to it. (always visible, when the icon is) leave blank to just show an icon.</li>
+
+
+    </ol>
+
+    <script type="text/javascript">
+      var manager = null;
+
+      $(window).load(function () {
+        manager = $('#VidTuts').VidTuts({ // These settings will overwrite the ones specified on the ol element.
+          'index': 5000
+        });
+      });
+
+
+      
+      $('#bntToggle').on('click', function () { manager.toggle() });
+      $('#bntStart').on('click', function () { manager.show() });
+        //$(".vidtuts-icon").css('display', 'inline').removeClass('animated bounceIn').addClass('animated bounceIn');
+      
+    </script>
+  </body>
+</html>

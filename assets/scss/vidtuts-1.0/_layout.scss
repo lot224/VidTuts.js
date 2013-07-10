@@ -1,0 +1,106 @@
+@import "arrow";
+@import "button";
+
+$tuts-color-base: #d2d2d2 !default;
+$tuts-width: 300px !default;
+$tuts-border-width: 10px !default; // MUST BE IN PX;
+$tuts-border-radius: 5px !default;
+$tuts-padding: 10px !default;
+$tuts-font-family: Tahoma, Helvetica, Arial, FreeSans, sans-serif;
+
+.vidtuts-items {
+  display:none;
+} 
+
+.vidtuts-silhouette {
+  background-color: #000000;
+  display: none;
+  height: 100%;
+  left: 0;
+  opacity: 0.4;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10000;
+}
+
+
+@mixin tuts-container(
+  $base-color:$tuts-color-base,
+  $size:medium, // tiny, small, medium, large
+  $radius:$tuts-border-radius
+) {
+
+  $color-text:   hsl(0, 0, 100%);
+  $border:       adjust-color($base-color, $saturation:   0%, $lightness:  10%);
+  $shadow-box:   adjust-color($base-color, $saturation:  -8%, $lightness:  10%);
+
+  @if lightness($base-color) > 75% {
+    $color-text: hsl(0, 0, 20%);
+    $border:     adjust-color($base-color, $saturation:   0%, $lightness: -10%);
+  }
+
+  @if      $size == large  { font-size:16px; $tuts-border-width: floor($tuts-border-width * 1.25);}
+  @else if $size == medium { font-size:14px; $tuts-border-width: floor($tuts-border-width * 1.00);}
+  @else if $size == small  { font-size:12px; $tuts-border-width: floor($tuts-border-width * 0.80);}
+  @else                    { font-size:10px; $tuts-border-width: floor($tuts-border-width * 0.60);}
+
+  
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  color: $color-text;
+  background: none repeat scroll 0 0 $base-color;
+  border: solid $tuts-border-width $border;
+  box-shadow: 3px 3px 3px #666;
+  padding: $tuts-padding;
+  
+  @include border-radius ($radius);
+
+  width: $tuts-width;
+
+  .tuts-content {
+    display:block;
+    margin-bottom: ($tuts-padding + $tuts-border-width) * 2;
+    margin-right: $tuts-padding  * 2;
+  }
+
+  .tuts-exit {
+    @include button($border, tiny, $radius);
+    position: absolute;
+    top: $tuts-padding / 2;
+    right: $tuts-padding / 2;
+    margin:0px;
+    font-family: verdana, sans-serif;
+    font-weight:bold;
+  }
+
+  .tuts-next, .tuts-close {
+    position:absolute;
+    bottom:5px;
+    left:10px;
+    @include button($border, $size, $radius);
+    margin:0px;
+  }
+
+  .tuts-arrow,.tuts-arrow-shadow {
+    position: absolute;
+    width:0px;
+    height:0px;
+    border-style: solid !important;
+    margin:auto auto;
+  }
+
+  .tuts-arrow {
+    z-index:15;
+    @include tuts-arrow(floor($tuts-border-width + ($tuts-border-width * 0.4)), $base-color, $radius, $tuts-border-width);
+  }
+
+  .tuts-arrow-shadow {
+    z-index:10;
+    @include tuts-arrow(floor(($tuts-border-width * 2) + ($tuts-border-width * 0.4)), $border, $radius, 0px);
+  }
+
+}
