@@ -15,6 +15,7 @@ Version 1.0
 
   function Manager(ol, options) {
     var _silhouette = '<span class="vidtuts-silhouette"></span>';
+    var _video_silhouette = '<span class="vidtuts-video-silhouette"></span>';
     var _ctrl = this;
     var _items = [];
     var _settings = {
@@ -38,6 +39,17 @@ Version 1.0
         _silhouette = $(".vidtuts-silhouette");
       }
 
+      if ($(".vidtuts-video-silhouette").length == 0) {
+        _video_silhouette = $(_video_silhouette).prependTo($("body"));
+        _video_silhouette.on('click', function () {
+          _video_silhouette.css('display', 'none');
+          $(".vidtuts-video").fadeOut('slow');
+          
+        });
+      } else {
+        _video_silhouette = $(".vidtuts-video-silhouettee");
+      }
+
       _settings = $.extend(_settings, getSettings(ol)); // Override the defaults with settings from the OL element
       _settings = $.extend(_settings, options); // Overwrite the settings with any passed options
 
@@ -47,6 +59,12 @@ Version 1.0
       ol.children().each(function () {
         var child = $(this);
         _items.push(new Video(child, _ctrl));
+      });
+
+      $(window).on('resize', function () {
+        for (var i = 0; i < _items.length; i++) {
+          _items[i].position();
+        };
       });
     }
 
@@ -71,8 +89,7 @@ Version 1.0
         show();
     }
 
-
-    function getSettings(element) {
+     function getSettings(element) {
       return {
         'index': element.data('index') ? element.data('index') : _settings.index
       };
@@ -94,67 +111,170 @@ Version 1.0
     var _ctrl = this;
     var _parent = parent;
 
-    var _item = '<span class="vidtuts-icon"></span>';
+    var _item = '<span class="vidtuts-icon"><span class="vidtuts-tooltip"></span></span>';
+    var _video = '<span class="vidtuts-video"><button>asdfgasdfg</button></span>';
+    var _tooltip = null;
+
+    var _li = null;
+
     var _guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
 
+    var _anchor = null;
+
     var _settings = {
       'index': 10001,
-      'delay': Math.floor((Math.random() * 500) + 1), // Random Value from 1-1000 for show hide purposes.
-      'showCSS': 'bounceIn',
-      'hideCSS': 'bounceOut',
-      'x': "animated bounceIn bounceOut",
-      'y': "animated bounceIn"
+      'delay': Math.floor((Math.random() * 1000) + 1) // Random Value from 1-1000 for show hide purposes.
     };
 
     $.extend(this, {
       'show': show,
-      'hide': hide
+      'hide': hide,
+      'position': position
     });
 
     function init(li) {
+      _li = $(li);
+
       _item = $(_item).prependTo($('body'));
       _item.attr('id', _guid);
-      _item.addClass('animate');
+      _item.css('z-index', _parent.settings().index + 2);
+      _item.on('click', onClick);
 
-      if (_item[0].addEventListener) {
-        _item[0].addEventListener("animationend", clearClasses, false);
-      } else if (_item[0].attachEvent) {
-        _item[0].attachEvent("onanimationend", clearClasses);
-      }
+      _video = $(_video).insertAfter($('.vidtuts-silhouette'));
+      _video.attr('id', 'video-' + _guid);
+      _video.css('z-index', _parent.settings().index + 1); // 1 less than icon so it stays behind it.
 
-      //_item[0].addEventListener('animationend', clearClasses);
-      //_item[0].attachEvent('animationend', clearClasses);
+      _tooltip = _item.find(".vidtuts-tooltip");
 
-      _item.css('z-index', _parent.settings().index + 1);
-    }
+      _tooltip.html(_li.html());
+      _tooltip.addClass(_li.attr('class'));
+      alignToolTip();
+
+      _anchor = _li.data('anchor') ? $(_li.data('anchor')) : null;
+      position();
+    };
 
     function show() {
-      setTimeout(function (guid, showCSS, hideCSS) {
-        $('#' + guid).removeClass(showCSS + " " + hideCSS).addClass(showCSS);
-      }, _settings.delay, _guid, _settings.showCSS, _settings.hideCSS);
+      _video.css('z-index', _parent.settings().index + 1);
+
+      setTimeout(function () {
+        position();
+        _tooltip.attr('style', '');
+        $('#' + _guid).stop(true, true).fadeIn('slow', function () {
+          $(this).show();
+          alignToolTip();
+        });
+      }, _settings.delay);
     }
 
     function hide() {
-      setTimeout(function (guid, showClass, hideClass) {
-        $('#' + guid).removeClass("animated bounceIn bounceOut").addClass("animated bounceOut");
-      }, _settings.delay, _guid,_settings.showClass, _settings.hideClass);
+      _video.fadeOut('fast');
+      
+      setTimeout(function () {
+        $('#' + _guid).stop(true, true).fadeOut('slow', function () {
+          $(this).hide();
+        });
+      }, _settings.delay);
+    }
 
-      //setTimeout(_hide, _settings.delay);
-      //_item.removeClass(_settings.showClass).addClass(_settings.hideClass);
-      //_item.removeClass('animated bounceIn bounceOut').addClass('animated bounceOut');
+    function position() {
+      // just set the left/top for now.
+      if (_anchor) {
+        var p = _anchor.offset();
+        _item.css({ 'top': p.top, 'left': p.left });
+      }
+    }
+
+    function alignToolTip() {
+
+      var styles = {};
+
+      if (_tooltip.hasClass('top')) {
+        styles.top = ((_tooltip.outerHeight() + 8) * -1) + "px";
+      }
+
+      if (_tooltip.hasClass('bottom')) {
+        styles.top = '32px';
+      }
+
+      if (_tooltip.hasClass('left')) {
+        styles.left = '0px';
+      }  
+
+      if (_tooltip.hasClass('right')) {
+        styles.left = ((_tooltip.outerWidth() - _item.outerWidth()) * -1) + 'px';
+      }
+
+      if (_tooltip.hasClass('center')) {
+
+        if (_tooltip.hasClass('top') || _tooltip.hasClass('bottom')) {
+          // center the tooltip horizontally
+          var newWidth = (_tooltip.outerWidth() - _item.outerWidth()) / 2;
+
+          styles.left = newWidth * -1;
+
+          if (_tooltip.hasClass('top')) {
+            styles.top = ((_tooltip.outerHeight() + 8) * -1) + "px";
+          }
+
+          if (_tooltip.hasClass('bottom')) {
+            styles.top = "32px";
+          }
+        }
+
+        if (_tooltip.hasClass('left') || _tooltip.hasClass('right')) {
+          // center the tooltip vertically
+          var newHeight = (_tooltip.outerHeight() - _item.outerHeight()) / 2;
+
+          styles.top = newHeight * -1;
+
+          if (_tooltip.hasClass('left')) {
+            styles.left = ((_tooltip.outerWidth() + 8) * -1) + "px";
+          }
+
+          if (_tooltip.hasClass('right')) {
+            styles.left = "40px";
+          }
+        }
+      }
+
+      _tooltip.stop(true, false).animate(styles, _settings.delay, 'swing', function () {
+        $(this).css('zoom', 1);
+      });
+
     }
 
 
-    function clearClasses() {
-      console.log('clearClasses');
-      _item.css('opacity', 1);
-      //if (_item.hasClass('hideClass')) {
-      //  _item.css('display', 'none');
-      //}
-      //_item.removeClass(_settings.showClass + " " + _settings.hideClass);
+    function onClick(e) {
+      $('.vidtuts-video-silhouette').css('display','inline-block');
+
+      var w = _item.width();
+      var h = _item.height();
+
+      _video.css({
+        'z-index': _video.css('z-index') + 1,
+        'width': _item.width(),
+        'height': _item.height(),
+        'top': _item.css('top'),
+        'left': _item.css('left'),
+        'display': 'inline-block'
+      });
+
+      var styles = {};
+
+      styles.width = '720px';
+      styles.height = '480px';
+      styles.top = Math.max(0, (($(window).height() - 480) / 2) + $(window).scrollTop()) + "px";
+      styles.left = Math.max(0, (($(window).width() - 720) / 2) + $(window).scrollLeft()) + "px"
+
+      _video.stop(true, false).animate(styles, 'slow', 'swing', function () {
+        
+      });
+      
+
     }
 
     init(li);

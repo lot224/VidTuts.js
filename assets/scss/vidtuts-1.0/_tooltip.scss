@@ -1,0 +1,170 @@
+.vidtuts-tooltip {
+  background-color: #FFFFFF;
+  border-radius: 4px 4px 4px 4px;
+  display: inline-block;
+  font: 8pt arial;
+  padding: 3px;
+  position: absolute;
+  white-space: nowrap;
+  margin:0;
+
+  &.bottom, &.top {
+    top:-1999px;
+    bottom: auto;
+  }
+
+  &.left, &.right {
+    left:-1999px;
+    right:auto;
+  }
+
+
+  &.xbottom {
+    top: 29px;
+    bottom: auto;
+  }
+
+  &.xleft {
+    left:0;
+    right:auto;
+  }
+
+  &.xright {
+    right:0;
+    left:auto;
+  }
+
+  &.xtop {
+    bottom:29px;
+    top:auto;
+  }
+
+  &.xcenter {
+
+    &.right {
+      right:auto;
+      left:20px;
+    }
+
+    &.left {
+      right:20px;
+      left:auto;
+    }
+  }
+
+
+}
+
+
+
+
+
+
+.vidtuts-tooltip:before,
+.vidtuts-tooltip:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+
+
+.vidtuts-tooltip {
+
+  &.right:before, &.right:after {
+    left: 0;
+    margin-left: -15px;
+    top: 50%;
+    margin-top: -8px;
+
+    border-color: transparent #FFFFFF transparent transparent;
+    border-style: solid;
+    border-width: 8px;
+  }
+
+
+  &.left:before, &.left:after {
+    right: 0;
+    margin-right: -15px;
+    top: 50%;
+    margin-top: -8px;
+
+    border-color: transparent transparent transparent #FFFFFF;
+    border-style: solid;
+    border-width: 8px;
+  }
+
+  &.top {
+  
+    &.right:before, &.right:after {
+      margin-top: auto;
+      right: 14px;
+
+      border-color: transparent #FFFFFF transparent transparent;
+      border-style: solid;
+      border-width: 8px;
+    }
+
+    &.left:before, &.left:after {
+      margin-top: auto;
+      left: 14px;
+
+      border-color: transparent transparent transparent #FFFFFF;
+      border-style: solid;
+      border-width: 8px;
+    }
+
+    &.center:before, &.center:after {
+      top: 100%;
+      margin-left: -6px;
+      left:50%;
+
+      border-color: #FFFFFF transparent transparent;
+      border-style: solid;
+      border-width: 6px;
+    }
+
+  
+  }
+
+  &.bottom {
+
+    &.right:before, &.right:after {
+      top:0px;
+      right: 14px;
+      margin-top: -8px;
+
+      border-color: transparent #FFFFFF transparent transparent;
+      border-style: solid;
+      border-width: 8px;
+    }
+
+    &.left:before, &.left:after {
+      margin-top: -8px;
+      left: 14px;
+      top:0px;
+
+      border-color: transparent transparent transparent #FFFFFF;
+      border-style: solid;
+      border-width: 8px;
+    }
+
+    &.center:before, &.center:after {
+      left:50%;
+      margin-left: -6px;
+      margin-top: -12px;
+      top: 0px;
+
+
+
+      border-color: transparent transparent #FFFFFF;
+      border-style: solid;
+      border-width: 6px;
+    }
+
+  }
+
+
+}
+
+
+

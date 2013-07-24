@@ -2,13 +2,12 @@ $experimental-support-for-svg: true;
 
 @import "compass";
 @import "vidtuts-1.0/layout";
+@import "vidtuts-1.0/tooltip";
+@import "vidtuts-1.0/video";
 
 $tuts-color-base: #ddd;
 $tuts-border-width:10px;
 
-.tuts-container {
-  @include tuts-container(#CCCCCC, medium);
-}
 
 
 .vidtuts-icon {
@@ -21,7 +20,7 @@ $tuts-border-width:10px;
   top:60px;
   cursor:pointer;
   cursor:hand;
-  opacity: 0.0;
+  display:none;
 
 .tooltip:after, .tooltip:before {
     content: ' ';
