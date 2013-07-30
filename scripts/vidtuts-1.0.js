@@ -43,8 +43,11 @@ Version 1.0
         _video_silhouette = $(_video_silhouette).prependTo($("body"));
         _video_silhouette.on('click', function () {
           _video_silhouette.css('display', 'none');
-          $(".vidtuts-video").fadeOut('slow');
-          
+          for (var i = 0; i < _items.length; i++) {
+            var vid = _items[i].video();
+            if (vid)
+              vid.hide();
+          }
         });
       } else {
         _video_silhouette = $(".vidtuts-video-silhouettee");
@@ -59,6 +62,15 @@ Version 1.0
       ol.children().each(function () {
         var child = $(this);
         _items.push(new Video(child, _ctrl));
+
+        /* Place the decision on the video control, anchors may be dynamic and could be added later.
+        var anchor = $(child.data('anchor'));
+        if (anchor.length > 0) {
+          _items.push(new Video(child, _ctrl));
+        } else {
+          console.warn('No anchor found for vidtut, ignoring node.');
+        }
+        */
       });
 
       $(window).on('resize', function () {
@@ -112,17 +124,14 @@ Version 1.0
     var _parent = parent;
 
     var _item = '<span class="vidtuts-icon"><span class="vidtuts-tooltip"></span></span>';
-    var _video = '<span class="vidtuts-video"><button>asdfgasdfg</button></span>';
-    var _tooltip = null;
-
-    var _li = null;
+    var _videoObj;
+    var _tooltip;
+    var _li;
 
     var _guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
-
-    var _anchor = null;
 
     var _settings = {
       'index': 10001,
@@ -132,7 +141,12 @@ Version 1.0
     $.extend(this, {
       'show': show,
       'hide': hide,
-      'position': position
+      'position': position,
+      'settings': function () { return _settings; },
+      'guid': function () { return _guid; },
+      'icon': function () { return _item; },
+      'toolTip': function () { return _tooltip; },
+      'video': function () { return _videoObj; }
     });
 
     function init(li) {
@@ -143,9 +157,10 @@ Version 1.0
       _item.css('z-index', _parent.settings().index + 2);
       _item.on('click', onClick);
 
-      _video = $(_video).insertAfter($('.vidtuts-silhouette'));
-      _video.attr('id', 'video-' + _guid);
-      _video.css('z-index', _parent.settings().index + 1); // 1 less than icon so it stays behind it.
+      if (_li.data('parentclass'))
+        _item.addClass(_li.data('parentclass'));     
+
+      videoInit();
 
       _tooltip = _item.find(".vidtuts-tooltip");
 
@@ -153,12 +168,44 @@ Version 1.0
       _tooltip.addClass(_li.attr('class'));
       alignToolTip();
 
-      _anchor = _li.data('anchor') ? $(_li.data('anchor')) : null;
       position();
     };
 
+    function videoInit() {
+
+      var videoType = _li.data("videotype");
+      var videoParams = _li.data("videoparams");
+
+      if (videoType && typeof (window[videoType]) === 'function') {
+        _videoObj = new window[videoType](_ctrl, videoParams ? videoParams : "");
+      } else {
+        if (!videoType) {
+          console.warn('No videoType attribute found on vidTut li element.');
+        } else {
+          if (typeof (window[videoType]) != 'function')
+            console.warn('No videoType object of type (window.' + videoType + ') found.');
+        }
+      }
+
+    }
+
+    function anchor() {
+      return _li.data('anchor') ? $(_li.data('anchor')).filter(":visible") : null;
+    }
+
+    function IsActive() {
+      var _anchor = anchor();
+      if (_anchor == null) return false;
+      if (!_anchor.is(':visible')) return false;
+
+      var ctrlVisibleElement = _li.data('hideifvisible') ? $(_li.data('hideifvisible')) : null;
+      if (ctrlVisibleElement && ctrlVisibleElement.is(':visible')) return false;
+
+      return true;
+    }
+
     function show() {
-      _video.css('z-index', _parent.settings().index + 1);
+      if (!IsActive()) return;
 
       setTimeout(function () {
         position();
@@ -171,8 +218,8 @@ Version 1.0
     }
 
     function hide() {
-      _video.fadeOut('fast');
-      
+      if (!IsActive()) return;
+
       setTimeout(function () {
         $('#' + _guid).stop(true, true).fadeOut('slow', function () {
           $(this).hide();
@@ -181,12 +228,15 @@ Version 1.0
     }
 
     function position() {
-      // just set the left/top for now.
-      if (_anchor) {
-        var p = _anchor.offset();
-        _item.css({ 'top': p.top, 'left': p.left });
-      }
-    }
+      if (!IsActive()) return;
+
+      var _anchor = anchor();
+      var p = _anchor.offset();
+      var styles = {};
+      styles.top = p.top + "px";
+      styles.left = p.left + "px";
+      _item.stop(true, false).animate(styles, 'slow', 'swing');
+    };
 
     function alignToolTip() {
 
@@ -249,32 +299,13 @@ Version 1.0
 
 
     function onClick(e) {
-      $('.vidtuts-video-silhouette').css('display','inline-block');
-
-      var w = _item.width();
-      var h = _item.height();
-
-      _video.css({
-        'z-index': _video.css('z-index') + 1,
-        'width': _item.width(),
-        'height': _item.height(),
-        'top': _item.css('top'),
-        'left': _item.css('left'),
-        'display': 'inline-block'
-      });
-
-      var styles = {};
-
-      styles.width = '720px';
-      styles.height = '480px';
-      styles.top = Math.max(0, (($(window).height() - 480) / 2) + $(window).scrollTop()) + "px";
-      styles.left = Math.max(0, (($(window).width() - 720) / 2) + $(window).scrollLeft()) + "px"
-
-      _video.stop(true, false).animate(styles, 'slow', 'swing', function () {
-        
-      });
-      
-
+      if (_videoObj) {
+        $('.vidtuts-video-silhouette').css('display', 'inline-block');
+        if (typeof (_videoObj.show) === 'function')
+          _videoObj.show();
+      } else {
+        console.warn('no video object found to display, ignoring request.');
+      }
     }
 
     init(li);

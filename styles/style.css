@@ -274,3 +274,62 @@ h2 {
   font-size: 12pt;
   margin-bottom: 5px;
 }
+
+.small {
+  padding: 20px;
+  font: normal 8pt arial;
+}
+
+.hidden {
+  background-color: #aaa;
+  color: #666666;
+}
+
+.dark {
+  background-color: #666;
+  color: #CCC;
+}
+
+#tipStyles {
+  border-collapse: collapse;
+  border: solid 1px #909090;
+  border-radius: 5px;
+}
+#tipStyles td {
+  width: 40px;
+  height: 40px;
+  border: solid 1px #909090;
+}
+
+.container {
+  background-color: #CCCCCC;
+  border: 1px solid #909090;
+  border-radius: 5px 5px 5px 5px;
+  color: #999999;
+  display: inline-block;
+  font: 20pt arial;
+  height: 435px;
+  left: 0;
+  margin: auto;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+  top: 252px;
+  width: 920px;
+  z-index: 100;
+}
+
+.hide {
+  display: none;
+}
+
+.tab {
+  border: solid 1px #909090;
+  border-radius: 5px;
+  height: 70px;
+  padding: 10px;
+}
+
+.fixed {
+  position: fixed !important;
+}
