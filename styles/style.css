@@ -292,13 +292,11 @@ h2 {
 
 #tipStyles {
   border-collapse: collapse;
-  border: solid 1px #909090;
-  border-radius: 5px;
 }
 #tipStyles td {
-  width: 40px;
-  height: 40px;
-  border: solid 1px #909090;
+  display: inline-block;
+  padding: 1px;
+  width: 36px;
 }
 
 .container {
@@ -314,7 +312,7 @@ h2 {
   padding: 20px;
   position: fixed;
   right: 0;
-  top: 252px;
+  top: 260px;
   width: 920px;
   z-index: 100;
 }

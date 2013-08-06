@@ -16,7 +16,7 @@
 
     var _quicktime = '<OBJECT id="vidtuts-player" CLASSID="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" CODEBASE="http://www.apple.com/qtactivex/qtplugin.cab" WIDTH="{0}" HEIGHT="{1}"><PARAM NAME="SRC" VALUE="{2}" /><PARAM NAME="autoplay" VALUE="true" /><EMBED SRC="{2}" TYPE="image/x-macpaint" PLUGINSPAGE="http://www.apple.com/quicktime/download" WIDTH="{0}" HEIGHT="{1}" AUTOPLAY="true" SCALE="ToFit"></EMBED></OBJECT>';
     var _mediaPlayer = '<object id="vidtuts-player" width="{0}" height="{1}" type="application/x-mplayer2" standby="Loading Microsoft Windows Media Player components..."><param value="opaque" name="wmode"><param value="{2}" name="filename"><param value="true" name="animationatStart"><param value="true" name="transparentatStart"><param value="true" name="autoStart"><param value="false" name="showControls"><param value="false" name="loop"></object>';
-    var _html5 = '<video id="vidtuts-player" autoplay="autoplay" width="{0}" height="{1}" controls><source src="{2}" type="video/mp4"><source src="movie.ogg" type="video/ogg"></video>';
+    var _html5 = '<video id="vidtuts-player" autoplay="autoplay" width="{0}" height="{1}"><source src="{2}" type="video/mp4"><source src="{2}" type="video/wmv"></video>';
 
     var _embed;
 
