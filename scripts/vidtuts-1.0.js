@@ -146,7 +146,8 @@ Version 1.0
       'guid': function () { return _guid; },
       'icon': function () { return _item; },
       'toolTip': function () { return _tooltip; },
-      'video': function () { return _videoObj; }
+      'video': function () { return _videoObj; },
+      'element': function () { return _li; }
     });
 
     function init(li) {

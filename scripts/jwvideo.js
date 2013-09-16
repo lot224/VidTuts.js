@@ -24,6 +24,8 @@
       'height': 405
     };
 
+    var _playerSettings = {};
+
     $.extend(this, {
       'show': show,
       'hide': hide
@@ -46,8 +48,8 @@
       for (var i = 0; i < items.length; i++) {
         try {
           var index = items[i].indexOf(':');
-          var key = items[i].substring(0, index);
-          var val = items[i].substr(index + 1);
+          var key = $.trim(items[i].substring(0, index));
+          var val = $.trim(items[i].substr(index + 1));
 
           if (isNaN(val)) {
             _settings[key] = val;
@@ -58,6 +60,40 @@
           console.error('Can not add property, (' + items[i] + ') has errors\n' + err);
         }
       };
+    }
+
+    function processPlayerSettings(settings) {
+      var cVal = _parent.element().parent().data('jwplayerparams');
+      var pVal = _parent.element().data('jwplayerparams');
+
+      _playerSettings = $.extend({},
+        generateSettingsObject(cVal != undefined ? cVal : ""),
+        generateSettingsObject(pVal != undefined ? pVal : ""));
+    }
+
+    function generateSettingsObject(sValue) {
+      // Take a String in a css format and create an array
+      var nResult = {};
+      if (typeof sValue === 'string' && sValue.length > 0) {
+        var items = sValue.split(";");
+        for (var i = 0; i < items.length; i++) {
+          try {
+            var index = items[i].indexOf(':');
+            var key = $.trim(items[i].substring(0, index));
+            var val = $.trim(items[i].substr(index + 1));
+
+            if (isNaN(val)) {
+              nResult[key] = val;
+            } else {
+              nResult[key] = Number(val);
+            }
+          } catch (err) {
+            console.error('Can not add property, (' + items[i] + ') has errors\n' + err);
+          }
+        };
+      }
+
+      return nResult;
     }
     
     function show() {
@@ -98,12 +134,15 @@
     function displayContent() {
       if (_player == null) {
         var id = _video.find('.vidtuts-video-content').attr('id');
-        _player = jwplayer(id).setup({
+
+        var details = $.extend({}, {
           file: _settings.url,
           width: _settings.width,
           height: _settings.height,
           autostart: true
-        });
+        }, _playerSettings);
+
+        _player = jwplayer(id).setup(details);
       } else {
         _player.play(true);
       }
@@ -117,11 +156,10 @@
       _video.fadeOut('slow');
     }
 
-
     processSettings(settings);
+    processPlayerSettings();
     init();
 
- 
   }
 
 })(jQuery);
